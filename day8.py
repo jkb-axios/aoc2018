@@ -41,6 +41,16 @@ class node:
   def metadataSum(self):
     return sum(self.metadata) + sum([x.metadataSum() for x in self.children])
 
+  def computeValue(self):
+    if self.num_children == 0:
+      return sum(self.metadata)
+    val = 0
+    for idx in self.metadata:
+      if idx < 1 or idx > self.num_children:
+        continue
+      val += self.children[idx-1].computeValue()
+    return val
+
 if __name__ == '__main__':
   #license = readInput('day8testinput.txt')
   license = readInput('day8input.txt')
@@ -49,3 +59,4 @@ if __name__ == '__main__':
   tree.parseHeader()
   #print tree
   print 'Metadata Sum:', tree.metadataSum()
+  print 'Root node value:', tree.computeValue()
